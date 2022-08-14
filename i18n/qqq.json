@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Isabelle Hurbain-Palatin"
+		]
+	},
+	"cocktailsearch": "The name of the extension's entry in Special:SpecialPages",
+	"cocktailsearch-desc": "{{desc}}",
+	"cocktailsearch-summary": "Description appearing on top of Special:MyExtension."
+}

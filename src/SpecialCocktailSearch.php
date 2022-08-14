@@ -1,7 +1,7 @@
 <?php
 
 namespace MediaWiki\Extension\CocktailSearch;
-class Special extends \SpecialPage
+class SpecialCocktailSearch extends \SpecialPage
 {
     function __construct()
     {
@@ -9,5 +9,10 @@ class Special extends \SpecialPage
     }
 
     function execute( $subPage ) {
+		$output = $this->getOutput();
+		$this->setHeaders();
+
+		$wikitext = 'Hello world!';
+		$output->addWikiTextAsInterface( $wikitext );
     }
 }

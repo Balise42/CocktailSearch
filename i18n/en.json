@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Isabelle Hurbain-Palatin"
+		]
+	},
+	"cocktailsearch": "CocktailSearch",
+	"cocktailsearch-desc": "A search page for cocktails",
+	"cocktailsearch-summary": "Search by ingredient, with exact or approximate criteria."
+}

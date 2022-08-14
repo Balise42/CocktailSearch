@@ -5,7 +5,7 @@
     "Isabelle Hurbain-Palatin"
   ],
   "requires": {
-    "MediaWiki": ">= 1.36.0",
+    "MediaWiki": ">= 1.36.0"
   },
   "descriptionmsg": "This extension provides a search tool for a cocktail search Wikibase-based database.",
   "license-name": "MIT",
@@ -14,10 +14,12 @@
     "MediaWiki\\Extension\\CocktailSearch\\": "src/"
   },
   "SpecialPages": {
-    "MyExtension": "MediaWiki\\Extension\\CocktailSearch\\Special"
+    "CocktailSearch": {
+		"class": "MediaWiki\\Extension\\CocktailSearch\\SpecialCocktailSearch"
+	}
   },
   "MessagesDirs": {
-    "MyExtension": [
+    "CocktailSearch": [
       "i18n"
     ]
   },
