@@ -23,5 +23,21 @@
       "i18n"
     ]
   },
+	"ResourceModules": {
+		"ext.CocktailSearch": {
+			"packageFiles": [
+				"extensions/CocktailSearch/modules/ext.CocktailSearch/cocktailsearch.ui.entitysearch.js",
+				"extensions/Wikibase/view/resources/jquery/wikibase/jquery.wikibase.entityselector.js"
+			],
+			"dependencies": [
+				"jquery.event.special.eachchange",
+				"jquery.spinner",
+				"jquery.wikibase.entityselector"
+			]
+		}
+	},
+	"Hooks": {
+		"BeforePageDisplay": "MediaWiki\\Extension\\CocktailSearch\\SpecialCocktailSearch::onBeforePageDisplay"
+	},
   "manifest_version": 2
 }
