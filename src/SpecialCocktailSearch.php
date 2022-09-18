@@ -23,17 +23,27 @@ class SpecialCocktailSearch extends \SpecialPage
 		$output = $this->getOutput();
 		$this->setHeaders();
 
-    	if ( !empty($_GET['ing1'] ) || !empty( $_GET['ing2'] || !empty( $_GET['ing3'] ) ) ) {
+		$ing1 = $_GET['ing1'];
+		$ing2 = $_GET['ing2'];
+		$ing3 = $_GET['ing3'];
+
+		for ( $i = 1; $i <= 3; $i++ ) {
+			if ( !preg_match('/^Q[0-9]+$/', ${"ing$i"} ) ) {
+				${"ing$i"} = null;
+			}
+		}
+
+    	if ( !empty( $ing1 ) || !empty( $ing2 ) || !empty( $ing3 ) ) {
     		$ings = [];
     		for ( $i = 1; $i <= 3; $i++ ) {
-				if (!empty($_GET['ing' . $i])) {
-					$ings[] = $_GET['ing' . $i];
+				if ( !empty(${"ing$i"} ) ) {
+					$ings[] = ${"ing$i"};
 				}
 			}
     		$res = $this->getCocktails( $ings );
     		$output->addHTML( Html::element( "a", [ "href" => './Special:CocktailSearch' ], "back to search") );
     		$output->addHTML( Html::element( "br") );
-			$output->addHTML( Html::element( "span", [], implode(", ",  array_filter([$_GET["ing1label"] ?? '', $_GET["ing2label"] ?? '', $_GET["ing3label"] ?? '']) )));
+			$output->addHTML( Html::element( "span", [], implode(", ",  array_filter([htmlspecialchars($_GET["ing1label"]) ?? '', htmlspecialchars($_GET["ing2label"]) ?? '', htmlspecialchars($_GET["ing3label"]) ?? '']) )));
 			$this->displayResults( $res, $output );
 		} else {
 			$output->addHTML(Html::openElement('form'));
@@ -81,8 +91,9 @@ class SpecialCocktailSearch extends \SpecialPage
 	}
 
 	private function getCocktails( array $ings, bool $exact = false) {
-		$endPoint = 'http://wdqs:9999/bigdata/namespace/wdq/sparql';
+		$endPoint =  $this->config->get( 'CocktailSearchSparqlEndpoint' );
 
+		$sparqlEndPoint = 'http://wdqs:9999/bigdata/namespace/wdq/sparql';
 		$propInstanceOf = $this->config->get( 'CocktailSearchInstanceOf' );
 		$propSubclass = $this->config->get( 'CocktailSearchSubclassOf' );
 		$propHasIng = $this->config->get( 'CocktailSearchHasIngredient' );
@@ -130,7 +141,7 @@ class SpecialCocktailSearch extends \SpecialPage
 
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $ch, CURLOPT_USERAGENT,
-			'CocktailSearch/0.1 (no-url-yet; isabelle@palatin.fr)' );
+			'CocktailSearch/0.1 (https://github.com/Balise42/CocktailSearch; isabelle@palatin.fr)' );
 		$output = curl_exec( $ch );
 		curl_close( $ch );
 		$data = json_decode( $output, true );

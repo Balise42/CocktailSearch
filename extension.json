@@ -12,6 +12,10 @@
 	"type": "other",
 
 	"config": {
+		"CocktailSearchSparqlEndpoint": {
+			"value": "http://wdqs:9999/bigdata/namespace/wdq/sparql",
+			"description": "URL to a SPARQL endpoint for this wikibase instance"
+		},
 		"CocktailSearchInstanceOf": {
 			"value": "P1",
 			"description": "Property ID for 'instance of'"
