@@ -1,28 +1,28 @@
 {
-  "name": "CocktailSearch",
-  "version": "0.0.0",
-  "author": [
-    "Isabelle Hurbain-Palatin"
-  ],
-  "requires": {
-    "MediaWiki": ">= 1.36.0"
-  },
-  "descriptionmsg": "This extension provides a search tool for a cocktail search Wikibase-based database.",
-  "license-name": "MIT",
-  "type": "other",
-  "AutoloadNamespaces": {
-    "MediaWiki\\Extension\\CocktailSearch\\": "src/"
-  },
-  "SpecialPages": {
-    "CocktailSearch": {
-		"class": "MediaWiki\\Extension\\CocktailSearch\\SpecialCocktailSearch"
-	}
-  },
-  "MessagesDirs": {
-    "CocktailSearch": [
-      "i18n"
-    ]
-  },
+	"name": "CocktailSearch",
+	"version": "0.0.0",
+	"author": [
+		"Isabelle Hurbain-Palatin"
+	],
+	"requires": {
+		"MediaWiki": ">= 1.36.0"
+	},
+	"descriptionmsg": "This extension provides a search tool for a cocktail search Wikibase-based database.",
+	"license-name": "MIT",
+	"type": "other",
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\CocktailSearch\\": "src/"
+	},
+	"SpecialPages": {
+		"CocktailSearch": {
+			"class": "MediaWiki\\Extension\\CocktailSearch\\SpecialCocktailSearch"
+		}
+	},
+	"MessagesDirs": {
+		"CocktailSearch": [
+			"i18n"
+		]
+	},
 	"ResourceModules": {
 		"ext.CocktailSearch": {
 			"packageFiles": [
@@ -39,5 +39,5 @@
 	"Hooks": {
 		"BeforePageDisplay": "MediaWiki\\Extension\\CocktailSearch\\SpecialCocktailSearch::onBeforePageDisplay"
 	},
-  "manifest_version": 2
+	"manifest_version": 2
 }
