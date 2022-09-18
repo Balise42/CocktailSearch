@@ -2,15 +2,21 @@
 
 namespace MediaWiki\Extension\CocktailSearch;
 
+use Config;
 use Html;
+use MediaWiki\MediaWikiServices;
 use OutputPage;
 use Skin;
 
 class SpecialCocktailSearch extends \SpecialPage
 {
+	/** @var Config */
+	var Config $config;
+
     function __construct()
     {
         parent::__construct('CocktailSearch');
+        $this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'CocktailSearch' );
     }
 
     function execute( $subPage ) {
@@ -77,29 +83,39 @@ class SpecialCocktailSearch extends \SpecialPage
 	private function getCocktails( array $ings, bool $exact = false) {
 		$endPoint = 'http://wdqs:9999/bigdata/namespace/wdq/sparql';
 
+		$propInstanceOf = $this->config->get( 'CocktailSearchInstanceOf' );
+		$propSubclass = $this->config->get( 'CocktailSearchSubclassOf' );
+		$propHasIng = $this->config->get( 'CocktailSearchHasIngredient' );
+		$propSubFor = $this->config->get( 'CocktailSearchSubstituteFor' );
+		$propBook = $this->config->get( 'CocktailSearchBook' );
+		$propPage = $this->config->get( 'CocktailSearchPage' );
+		$propSuchAs = $this->config->get( 'CocktailSearchSuchAs' );
+		$itemCocktailRecipe = $this->config->get( 'CocktailSearchCocktailRecipe' );
+
+
 		$ingConstraints = '';
 		foreach ( $ings as $ing ) {
 			if ( $exact ) {
-				$ingConstraints .= '?cocktail wdt:P3 wd:' . $ing . ' . ' . PHP_EOL;
+				$ingConstraints .= "?cocktail wdt:$propHasIng wd:$ing . ";
 			} else {
 				$ingConstraints .=   "{ select ?sub$ing where {
-	{ { ?sub$ing (wdt:P4|wdt:P1|wdt:P2)+ wd:$ing } 
-		union { wd:$ing (wdt:P1|wdt:P2)+ ?sub$ing } }
+	{ { ?sub$ing (wdt:$propSubFor|wdt:$propInstanceOf|wdt:$propSubclass)+ wd:$ing }
+		union { wd:$ing (wdt:$propInstanceOf|wdt:$propSubclass)+ ?sub$ing } }
 	} }
-	{ {?cocktail wdt:P3 ?sub$ing }
-		union { ?cocktail p:P3 [ pq:P4|pq:P8 ?sub$ing ] } 
-		union { ?cocktail wdt:P3 wd:$ing }}";
+	{ {?cocktail wdt:$propHasIng ?sub$ing }
+		union { ?cocktail p:$propHasIng [ pq:$propSubFor|pq:$propSuchAs ?sub$ing ] }
+		union { ?cocktail wdt:$propHasIng wd:$ing }}";
 			}
 		}
 
 		$sparql = "SELECT DISTINCT ?cocktail ?cocktailLabel (GROUP_CONCAT(DISTINCT ?ingLabel; SEPARATOR=\", \") AS ?ingList) ?bookLabel ?page WHERE {
 			$ingConstraints
-            ?cocktail wdt:P3 ?ing .
-            ?cocktail wdt:P1 wd:Q1 .
+            ?cocktail wdt:$propHasIng ?ing .
+            ?cocktail wdt:$propInstanceOf wd:$itemCocktailRecipe .
             ?ing rdfs:label ?ingLabel .
-			?cocktail p:P5 ?ref  .
-            ?ref pq:P7 ?page .
-            ?ref ps:P5 ?book
+			?cocktail p:$propBook ?ref  .
+            ?ref pq:$propPage ?page .
+            ?ref ps:$propBook ?book
 				SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }
 		}
 		group by ?cocktail ?cocktailLabel ?bookLabel ?page";

@@ -10,6 +10,44 @@
 	"descriptionmsg": "This extension provides a search tool for a cocktail search Wikibase-based database.",
 	"license-name": "MIT",
 	"type": "other",
+
+	"config": {
+		"CocktailSearchInstanceOf": {
+			"value": "P1",
+			"description": "Property ID for 'instance of'"
+		},
+		"CocktailSearchSubclassOf": {
+			"value": "P2",
+			"description": "Property ID for 'subclass of'"
+		},
+		"CocktailSearchHasIngredient": {
+			"value": "P3",
+			"description": "Property ID for 'has ingredient'"
+		},
+		"CocktailSearchSubstituteFor": {
+			"value": "P4",
+			"description": "Property ID for 'substitute for'"
+		},
+		"CocktailSearchBook": {
+			"value": "P5",
+			"description": "Property ID for 'book'"
+		},
+		"CocktailSearchPage": {
+			"value": "P7",
+			"description": "Property ID for 'page in book'"
+		},
+		"CocktailSearchSuchAs": {
+			"value": "P8",
+			"description": "Property ID for 'such as'"
+		},
+		"CocktailSearchCocktailRecipe": {
+			"value": "Q1",
+			"description": "QID for 'cocktail recipe'"
+		}
+	},
+	"ConfigRegistry": {
+		"CocktailSearch": "GlobalVarConfig::newInstance"
+	},
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\CocktailSearch\\": "src/"
 	},
