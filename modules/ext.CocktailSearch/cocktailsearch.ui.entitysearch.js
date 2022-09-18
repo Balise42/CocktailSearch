@@ -1,6 +1,5 @@
 ( function () {
 	'use strict';
-	require( '../../../Wikibase/view/resources/jquery/wikibase/jquery.wikibase.entityselector.js' );
 	$( function () {
 		for (const field of ['#ingredient1', '#ingredient2', '#ingredient3']) {
 			console.log( field );
